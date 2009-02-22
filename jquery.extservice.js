@@ -64,7 +64,7 @@ Queue.prototype.pop = function () {
 
   // Evil!
   document.write = function (data) {
-    $('<div/>').html (data).appendTo (writeTarget);
+    $('<div/>').html (data).children ().remove ().appendTo (writeTarget);
   };
 
   var theQueue = this;
