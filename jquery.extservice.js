@@ -16,16 +16,86 @@
 /*global jQuery*/
 (function ($) {
 
-// This is evil, but necessary to work around a disqus problem.
-function replaceDocumentWrite () {
-  document.write = function (string) {
-    $('<div/>').html (string).appendTo ('body');
+function handleOptions (prefix, defaults, options) {
+  for (var option in defaults) {
+    if (defaults.hasOwnProperty (option)) {
+      if (typeof options[option] === 'string') {
+        // Set a global.
+        window[prefix + option] = options[option];
+      }
+    }
   }
 }
 
-function setGlobal (name, value) {
-  window[name] = value;
+function Queue () {
+  this.running = false;
+  this.queue   = [];
 }
+
+Queue.prototype.push = function (writeTarget, scriptUrl) {
+  this.queue.push ([writeTarget, scriptUrl]);
+
+  if (! this.running) {
+    this.pop ();
+  }
+};
+
+Queue.prototype.pop = function () {
+  this.running = true;
+
+  var item = this.queue.shift ();
+  if (! item) {
+    this.running = false;
+    return;
+  }
+
+  var writeTarget = item[0],
+      scriptUrl   = item[1];
+
+  // Evil!
+  document.write = function (data) {
+    $('<div/>').html (data).appendTo (writeTarget);
+  };
+
+  var theQueue = this;
+  $.getScript (scriptUrl, function () {
+    theQueue.pop ();
+  });
+}
+
+var queue = new Queue ();
+
+/* Digg:
+ *
+ * <div id="digg"></div>
+ *
+ * $(function () {
+ *   $('#digg').loadDigg ();
+ * });
+ */
+
+$.fn.loadDigg = function (forumName, options) {
+  var defaults = {
+    url:      undefined,
+    title:    undefined,
+    bodytext: undefined,
+    media:    undefined,
+    topic:    undefined,
+    skin:     undefined,
+    bgcolor:  undefined,
+    window:   undefined
+  };
+
+  handleOptions ('digg_', defaults, $.extend ({}, defaults, options));
+
+  this.eq (0).each (function () {
+    $(this).empty ();
+
+    queue.push (this, 'http://digg.com/tools/diggthis.js');
+  });
+
+  return this;
+};
 
 /* Disqus:
  *
@@ -49,29 +119,14 @@ $.fn.loadDisqus = function (forumName, options) {
     title:   undefined,
     message: undefined
   };
-  var options = $.extend (defaults, options);
 
-  if (typeof options.url === 'string') {
-    setGlobal ('disqus_url', options.url);
-  }
-
-  if (typeof options.title === 'string') {
-    setGlobal ('disqus_title', options.title);
-  }
-
-  if (typeof options.message === 'string') {
-    setGlobal ('disqus_message', options.message);
-  }
-
-  var url = 'http://disqus.com/forums/' + forumName + '/embed.js';
+  handleOptions ('disqus_', defaults, $.extend ({}, defaults, options));
 
   this.eq (0).each (function () {
     $(this).empty ().append ('<div id="disqus_thread"/>');
+
+    queue.push (this, 'http://disqus.com/forums/' + forumName + '/embed.js');
   });
-
-  replaceDocumentWrite ();
-
-  $.getScript (url);
 
   return this;
 };
