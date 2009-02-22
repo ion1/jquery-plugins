@@ -13,6 +13,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+/* The external Disqus and Digg scripts use document.write which horribly
+ * breaks everything if executed after the DOM is ready. This plugin uses an
+ * ugly hack: it replaces document.write with a version that appends the HTML
+ * to the element in DOM where each service respectively expects it to write.
+ *
+ * If you come up with a better way to do it, please share it with the author.
+ */
+
 /*global jQuery, _gat*/
 (function ($) {
 
