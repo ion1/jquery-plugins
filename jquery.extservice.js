@@ -55,7 +55,7 @@ Queue.prototype.pop = function () {
   if (! item) {
     this.running = false;
     // Evil!
-    document.write = function () { };
+    document.write = document.writeln = function () { };
     return;
   }
 
@@ -65,6 +65,9 @@ Queue.prototype.pop = function () {
   // Evil!
   document.write = function (data) {
     $('<div/>').html (data).children ().remove ().appendTo (writeTarget);
+  };
+  document.writeln = function (data) {
+    document.write (data + "\n");
   };
 
   var theQueue = this;
