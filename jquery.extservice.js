@@ -69,6 +69,9 @@ var queue = new Queue ();
 
 /* Digg:
  *
+ * WARNING: The function replaces document.write! The digg JavaScript uses it,
+ * which causes breakage.
+ *
  * <div id="digg"></div>
  *
  * $(function () {
