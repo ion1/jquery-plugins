@@ -1,4 +1,14 @@
-USAGE:
+EXTSERVICE:
+
+jquery.extservice.js is a plugin that enables you to add embedded items from
+external services to a webpage easily and with a consistent syntax.
+
+Currently supported services:
+• Digg (the “digg this!” button)
+• Disqus (the forum thread for your webpage)
+• Google Analytics (the tracking code)
+
+EXTSERVICE USAGE:
 
 Add the following to the body:
 
