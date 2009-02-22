@@ -46,6 +46,8 @@ Queue.prototype.pop = function () {
   var item = this.queue.shift ();
   if (! item) {
     this.running = false;
+    // Evil!
+    document.write = function () { };
     return;
   }
 
