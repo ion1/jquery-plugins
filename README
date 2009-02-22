@@ -1,6 +1,6 @@
 EXTSERVICE:
 
-jquery.extservice.js is a plugin that enables you to add embedded items from
+jquery.extservice.js is a plugin that allows you to add embedded items from
 external services to a webpage easily and with a consistent syntax.
 
 Currently supported services:
