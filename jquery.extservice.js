@@ -13,7 +13,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*global jQuery*/
+/*global jQuery, _gat*/
 (function ($) {
 
 function handleOptions (prefix, defaults, options) {
