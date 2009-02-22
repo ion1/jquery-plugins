@@ -63,7 +63,7 @@ Queue.prototype.pop = function () {
   $.getScript (scriptUrl, function () {
     theQueue.pop ();
   });
-}
+};
 
 var queue = new Queue ();
 
