@@ -136,6 +136,31 @@ $.fn.loadDisqus = function (forumName, options) {
   return this;
 };
 
+/* Google Analytics:
+ *
+ * $(function () {
+ *   $.loadGoogleAnalytics ('<your-ga-identifier>');
+ * });
+ */
+
+$.loadGoogleAnalytics = function (id) {
+  var uri;
+
+  if (document.location.protocol === 'https:') {
+    uri = 'https://ssl.';
+  } else {
+    uri = 'http://www.';
+  }
+
+  uri += 'google-analytics.com/ga.js';
+
+  $.getScript (uri, function () {
+    try {
+      _gat._getTracker (id)._trackPageview ();
+    } catch (e) { }
+  });
+};
+
 }) (jQuery);
 
 // vim:set et sw=2 sts=2:
