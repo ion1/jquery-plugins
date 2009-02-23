@@ -120,7 +120,7 @@ var queue = new Queue ();
  * });
  */
 
-$.fn.loadDigg = function (forumName, options) {
+$.fn.loadDigg = function (options) {
   var defaults = {
     url:      document_uri (),
     title:    title (),
