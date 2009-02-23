@@ -24,6 +24,10 @@
 /*global jQuery, _gat*/
 (function ($) {
 
+// Enable minification.
+var DOCUMENT  = document,
+    UNDEFINED = undefined;
+
 function handleOptions (prefix, defaults, options) {
   for (var option in defaults) {
     if (defaults.hasOwnProperty (option)) {
@@ -55,7 +59,7 @@ Queue.prototype.pop = function () {
   if (! item) {
     this.running = false;
     // Evil!
-    document.write = document.writeln = function () { };
+    DOCUMENT.write = DOCUMENT.writeln = function () { };
     return;
   }
 
@@ -63,11 +67,11 @@ Queue.prototype.pop = function () {
       scriptUrl   = item[1];
 
   // Evil!
-  document.write = function (data) {
+  DOCUMENT.write = function (data) {
     $('<div/>').html (data).children ().remove ().appendTo (writeTarget);
   };
-  document.writeln = function (data) {
-    document.write (data + "\n");
+  DOCUMENT.writeln = function (data) {
+    DOCUMENT.write (data + "\n");
   };
 
   var theQueue = this;
@@ -92,14 +96,14 @@ var queue = new Queue ();
 
 $.fn.loadDigg = function (forumName, options) {
   var defaults = {
-    url:      undefined,
-    title:    undefined,
-    bodytext: undefined,
-    media:    undefined,
-    topic:    undefined,
-    skin:     undefined,
-    bgcolor:  undefined,
-    window:   undefined
+    url:      UNDEFINED,
+    title:    UNDEFINED,
+    bodytext: UNDEFINED,
+    media:    UNDEFINED,
+    topic:    UNDEFINED,
+    skin:     UNDEFINED,
+    bgcolor:  UNDEFINED,
+    window:   UNDEFINED
   };
 
   handleOptions ('digg_', defaults, $.extend ({}, defaults, options));
@@ -131,9 +135,9 @@ $.fn.loadDigg = function (forumName, options) {
 
 $.fn.loadDisqus = function (forumName, options) {
   var defaults = {
-    url:     undefined,
-    title:   undefined,
-    message: undefined
+    url:     UNDEFINED,
+    title:   UNDEFINED,
+    message: UNDEFINED
   };
 
   handleOptions ('disqus_', defaults, $.extend ({}, defaults, options));
@@ -157,7 +161,7 @@ $.fn.loadDisqus = function (forumName, options) {
 $.loadGoogleAnalytics = function (id) {
   var uri;
 
-  if (document.location.protocol === 'https:') {
+  if (DOCUMENT.location.protocol === 'https:') {
     uri = 'https://ssl.';
   } else {
     uri = 'http://www.';
