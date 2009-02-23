@@ -28,6 +28,22 @@
 var DOCUMENT  = document,
     UNDEFINED = undefined;
 
+// Prefer meta[name=title] to title, in case the document contains:
+// <title>An awesome document – My awesome website</title>
+// <meta name="title" content="An awesome document">
+function title () {
+  return $('meta[name=title]').attr ('content') ||
+         $('title').text ();
+}
+
+function description () {
+  return $('meta[name=description]').attr ('content');
+}
+
+function document_uri () {
+  return $('link[rel=self]').attr ('href');
+}
+
 function handleOptions (prefix, defaults, options) {
   for (var option in defaults) {
     if (defaults.hasOwnProperty (option)) {
@@ -96,9 +112,9 @@ var queue = new Queue ();
 
 $.fn.loadDigg = function (forumName, options) {
   var defaults = {
-    url:      UNDEFINED,
-    title:    UNDEFINED,
-    bodytext: UNDEFINED,
+    url:      document_uri (),
+    title:    title (),
+    bodytext: description (),
     media:    UNDEFINED,
     topic:    UNDEFINED,
     skin:     UNDEFINED,
@@ -135,8 +151,8 @@ $.fn.loadDigg = function (forumName, options) {
 
 $.fn.loadDisqus = function (forumName, options) {
   var defaults = {
-    url:     UNDEFINED,
-    title:   UNDEFINED,
+    url:     document_uri (),
+    title:   title (),
     message: UNDEFINED
   };
 

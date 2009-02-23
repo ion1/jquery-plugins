@@ -8,6 +8,20 @@ Currently supported services:
 • Disqus (the forum thread for your webpage)
 • Google Analytics (the tracking code)
 
+If the document contains
+
+  <title>An awesome document – My awesome website</title>
+  <meta name="title" content="An awesome document">
+
+the meta value will be used as the default title for Digg and Disqus. Failing
+that, the value of the title element will be used.
+
+The content of a <meta name="description" content="..."> element, if any, will
+be used as the default description for Digg.
+
+The href of a <link rel="self" type="text/html" href="..."> element, if any,
+will be used as the default URI for Digg and Disqus.
+
 EXTSERVICE USAGE:
 
 Add the following to the body:
@@ -26,11 +40,7 @@ Add the following to the head after loading jQuery itself:
   <script type="text/javascript" src="<path-to-extservice>/jquery.extservice.min.js"></script>
   <script type="text/javascript">
     $(function () {
-      $('#digg').loadDigg ({
-        title:    'My awesome website',
-        bodytext: 'This website is full of awesome!',
-        bgcolor:  'yellow'
-      });
+      $('#digg').loadDigg ({ bgcolor: 'yellow' });
 
       $('#disqus').loadDisqus ('<your-disqus-forumname>');
 
