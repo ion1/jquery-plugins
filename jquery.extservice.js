@@ -200,6 +200,8 @@ $.loadGoogleAnalytics = function (id) {
       _gat._getTracker (id)._trackPageview ();
     } catch (e) { }
   });
+
+  return $;
 };
 
 }) (jQuery);
