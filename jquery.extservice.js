@@ -177,6 +177,35 @@ $.fn.loadDisqus = function (forumName, options) {
   return this;
 };
 
+/* Delicious:
+ *
+ * $(function () {
+ *   $('#delicious').loadDelicious ();
+ * });
+ */
+
+$.fn.loadDelicious = function (options) {
+  var defaults = {
+    'class': UNDEFINED
+  };
+
+  options = $.extend ({}, defaults, options);
+
+  if (typeof window.Delicious === 'undefined') { window.Delicious = {}; }
+
+  if (typeof options['class'] === 'string') {
+    window.Delicious.BLOGBADGE_DEFAULT_CLASS = options['class'];
+  }
+
+  this.eq (0).each (function () {
+    $(this).empty ();
+
+    queue.push (this, 'http://static.delicious.com/js/blogbadge.js');
+  });
+
+  return this;
+};
+
 /* Google Analytics:
  *
  * $(function () {
