@@ -55,6 +55,16 @@ function handleOptions (prefix, defaults, options) {
   }
 }
 
+// We want to cache the scripts.
+function getScriptCaching (uri, callback) {
+  return $.ajax ({
+    url:      uri,
+    success:  callback,
+    dataType: 'script',
+    cache:    true
+  });
+}
+
 function Queue () {
   this.running = false;
   this.queue   = [];
@@ -91,7 +101,7 @@ Queue.prototype.pop = function () {
   };
 
   var theQueue = this;
-  $.getScript (scriptUrl, function () {
+  getScriptCaching (scriptUrl, function () {
     theQueue.pop ();
   });
 };
@@ -185,7 +195,7 @@ $.loadGoogleAnalytics = function (id) {
 
   uri += 'google-analytics.com/ga.js';
 
-  $.getScript (uri, function () {
+  getScriptCaching (uri, function () {
     try {
       _gat._getTracker (id)._trackPageview ();
     } catch (e) { }
